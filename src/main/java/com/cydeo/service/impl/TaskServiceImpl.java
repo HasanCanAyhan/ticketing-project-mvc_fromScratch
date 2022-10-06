@@ -14,7 +14,10 @@ public class TaskServiceImpl extends AbstractMapServiceDB<Long,TaskDTO> implemen
     @Override
     public void save(TaskDTO task) {
 
-        task.setId(UUID.randomUUID().getMostSignificantBits());
+        if (task.getId() == null){
+            task.setId(UUID.randomUUID().getMostSignificantBits());
+        }
+
 
         if (task.getTaskStatus() == null){
             task.setTaskStatus(Status.OPEN);
@@ -45,6 +48,13 @@ public class TaskServiceImpl extends AbstractMapServiceDB<Long,TaskDTO> implemen
 
     @Override
     public void update(TaskDTO task) {
+
+        //according to database
+
+        task.setTaskStatus(  findById(task.getId()).getTaskStatus()  );
+        task.setAssignedDate( findById(task.getId()).getAssignedDate()    );
+
+
         super.update(task.getId(),task);
     }
 }

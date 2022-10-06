@@ -56,5 +56,30 @@ public class TaskController {
     }
 
 
+    @GetMapping("/update/{taskId}")
+    public String editTask(@PathVariable("taskId") Long taskId, Model model){
+
+        model.addAttribute("task", taskService.findById(taskId));
+        model.addAttribute("projects", projectService.readAll());
+        model.addAttribute("employees", userService.getEmployees());
+        model.addAttribute("tasks", taskService.readAll());
+
+        return "task/update";
+    }
+
+    @PostMapping("/update/{id}") // {id} : task id is not in form !! userName and projectCode are all in the form
+    public String updateTask(@PathVariable("id") Long id,@ModelAttribute("task") TaskDTO task){
+
+        // before update, assigned date and status should be not changed , bcs those are not in form
+
+        task.setId(id);
+
+        taskService.update(task);
+
+
+        return "redirect:/task/show";
+    }
+
+
 
 }

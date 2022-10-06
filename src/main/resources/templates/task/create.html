@@ -130,7 +130,7 @@
                                                 <td th:text="${task.assignedDate}"></td>
                                                 <td th:text="${task.taskStatus}"></td>
                                                 <td class="actions">
-                                                    <a href="#" class="btn btn-warning rounded-0">Update</a>
+                                                    <a th:href="@{/task/update/{taskId}(taskId = ${task.id})}" class="btn btn-warning rounded-0">Update</a>
                                                     <a th:href="@{/task/delete/{taskId}(taskId = ${task.id})}" class="btn btn-danger rounded-0">Delete</a>
                                                 </td>
                                             </tr>
