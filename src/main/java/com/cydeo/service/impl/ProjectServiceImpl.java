@@ -35,7 +35,17 @@ public class ProjectServiceImpl extends AbstractMapServiceDB<String,ProjectDTO> 
     }
 
     @Override
-    public void update(ProjectDTO project) {
+    public void update(ProjectDTO project) { // this project comes from Controller side so UI-Part
+
+        project.setProjectStatus(   findById(project.getProjectCode()).getProjectStatus()   );
+
+
         super.update(project.getProjectCode(),project);
+    }
+
+
+    @Override
+    public void completeById(String projectCode) {
+        findById(projectCode).setProjectStatus(Status.COMPLETE);
     }
 }

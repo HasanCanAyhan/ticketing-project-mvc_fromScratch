@@ -5,10 +5,7 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/project")
@@ -44,8 +41,48 @@ public class ProjectController {
 
         projectService.save(project);
 
+        return "redirect:/project/show";
+    }
+
+
+    @GetMapping("/delete/{projectCode}")
+    public String deleteProject(@PathVariable("projectCode") String projectCode){
+
+        projectService.deleteById(projectCode);
+        return "redirect:/project/show";
+
+    }
+
+    @GetMapping("/update/{projectCode}")
+    public String editProject(@PathVariable("projectCode") String projectCode,Model model){
+
+        model.addAttribute("project", projectService.findById(projectCode));
+        model.addAttribute("managers", userService.getManagers());
+        model.addAttribute("projects",projectService.readAll() );
+
+
+        return "/project/update";
+    }
+
+    @PostMapping("/update")//save button for update
+    public String updateProject(@ModelAttribute("project") ProjectDTO project){
+
+        //status should be set  before update bcs there is no this in the form
+        projectService.update(project);
 
         return "redirect:/project/show";
+    }
+
+
+    @GetMapping("/complete/{projectCode}")
+    public String completeProject(@PathVariable("projectCode") String projectCode){
+
+        //status should be converted to Complete - new method for that in the projectService
+
+        projectService.completeById(projectCode);
+
+        return "redirect:/project/show";
+
     }
 
 

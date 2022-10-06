@@ -4,5 +4,7 @@ import com.cydeo.dto.ProjectDTO;
 
 public interface ProjectService extends CRUDService<String, ProjectDTO>{
 
+    void completeById(String projectCode);
+
 
 }
