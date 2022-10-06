@@ -1,11 +1,14 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.UserDTO;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/project")
@@ -84,6 +87,24 @@ public class ProjectController {
         return "redirect:/project/show";
 
     }
+
+
+    //PROJECT-STATUS PAGE
+
+    @GetMapping("/project-status")
+    public String getProjectStatusPage(Model model){
+
+        //projectCode/projectName/start-EndDate/Manager/Unfinished-Completed/Status/Action
+
+        UserDTO manager = userService.findById("john@cydeo.com");
+
+        List<ProjectDTO> projects_theManager = projectService.getProjectsForSpecificManager(manager);
+
+        model.addAttribute("projects", projects_theManager);
+
+        return "/manager/project-status";
+    }
+
 
 
 
