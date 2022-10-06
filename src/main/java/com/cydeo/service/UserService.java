@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserService extends CRUDService<String, UserDTO>{
 
-    List<UserDTO> getManagers ();
+    List<UserDTO> getManagers();
+    List<UserDTO> getEmployees();
 
 }

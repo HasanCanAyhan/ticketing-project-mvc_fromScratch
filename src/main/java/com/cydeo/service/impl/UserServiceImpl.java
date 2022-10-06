@@ -38,7 +38,16 @@ public class UserServiceImpl extends AbstractMapServiceDB<String,UserDTO> implem
     @Override
     public List<UserDTO> getManagers() {
         return readAll().stream()
-                .filter(userDTO -> userDTO.getRole().getId() == 2).collect(Collectors.toList());
+                .filter(userDTO -> userDTO.getRole().getId() == 2)
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public List<UserDTO> getEmployees() {
+        return readAll().stream()
+                .filter(userDTO -> userDTO.getRole().getId() == 3)
+                .collect(Collectors.toList());
+    }
+
 
 }
