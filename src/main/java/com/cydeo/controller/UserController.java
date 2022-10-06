@@ -24,7 +24,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/create") // UserCreate Page
+    @GetMapping("/show") // UserCreate Page
     public String getUserCreatePage(Model model){
         //user
         model.addAttribute("user",new UserDTO());
@@ -36,13 +36,13 @@ public class UserController {
         return "/user/create";
     }
 
-    @PostMapping("/save")
-    public String saveUser(@ModelAttribute("user") UserDTO user){
+    @PostMapping("/create")
+    public String insertUser(@ModelAttribute("user") UserDTO user ){
 
         userService.save(user);
 
-        return "redirect:/user/create";
 
+        return "redirect:/user/show";
     }
 
 
