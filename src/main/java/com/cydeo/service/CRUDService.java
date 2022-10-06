@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CRUDService<ID,T> { // create -> here : save , read , update, delete
 
-    void save(ID id , T object);
+    void save(T object);
 
     List<T> readAll();
 
@@ -12,7 +12,7 @@ public interface CRUDService<ID,T> { // create -> here : save , read , update, d
 
     void deleteById(ID id);
 
-    void update(ID id, T object);
+    void update(T object);
 
 
 
