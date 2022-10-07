@@ -1,6 +1,7 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
@@ -78,6 +79,65 @@ public class TaskController {
 
 
         return "redirect:/task/show";
+    }
+
+
+    //Pending Task Page : not completed tasks
+
+    @GetMapping("/pending")
+    public String getPendingTasksPage(Model model){
+
+        //project code and name, task subject, assignedEmployee,assigned date,status
+
+        model.addAttribute("tasks", taskService.getTasksNotCompleted());
+
+
+
+
+
+        return "/task/pending-tasks";
+
+    }
+
+
+    //Pending Task Update Button for change the status
+
+    @GetMapping("/employee/edit/{id}")
+    public String changePendingTasksStatus(@PathVariable("id") Long id,Model model){
+
+        model.addAttribute("task", taskService.findById(id));
+        model.addAttribute("statuses", Status.values());
+
+        //taskList which are not completed
+
+        model.addAttribute("tasks", taskService.getTasksNotCompleted());
+
+        return "/task/status-update";
+    }
+
+    @PostMapping("/employee/update/{id}")
+    public String updateTaskStatus(@PathVariable("id") Long id, @ModelAttribute("task") TaskDTO task){
+
+        //First status should be updated
+
+        taskService.updateStatus(task);
+
+
+
+
+        return "redirect:/task/pending";
+    }
+
+
+    //archive tasks : are completed
+
+
+    @GetMapping("/archive")
+    public String getArchiveTasksPage(Model model){
+
+        model.addAttribute("tasks", taskService.getAllTasksAreCompleted());
+
+        return "/task/archive";
     }
 
 

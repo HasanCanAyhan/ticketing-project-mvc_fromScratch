@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl extends AbstractMapServiceDB<Long,TaskDTO> implements TaskService {
@@ -57,4 +58,23 @@ public class TaskServiceImpl extends AbstractMapServiceDB<Long,TaskDTO> implemen
 
         super.update(task.getId(),task);
     }
+
+    @Override
+    public List<TaskDTO> getTasksNotCompleted() {
+        return readAll().stream().filter(task -> task.getTaskStatus() != Status.COMPLETE).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateStatus(TaskDTO task) {
+        //                                   it comes from UI -Side
+        findById(task.getId()).setTaskStatus(task.getTaskStatus());// First ,status is updated
+        update(task);// Second, task is updated with the new status information
+
+    }
+
+    @Override
+    public List<TaskDTO> getAllTasksAreCompleted() {
+        return readAll().stream().filter(task -> task.getTaskStatus() == Status.COMPLETE).collect(Collectors.toList());
+    }
+
 }
